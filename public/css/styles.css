@@ -1,0 +1,202 @@
+#footer{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+footer {
+    background-color: #FC6600;
+    color: #ffffff;
+}
+.navbar{
+    background-color: #FC6600 !important;
+}
+.buttons{
+    color: #FC6600 ;
+    background-color: #ffffff;
+     border: none;
+
+}
+.buttons:hover{
+    color: #883803 ;
+}
+.doc_img{
+    height: 200px;
+    /* width: 300px; */
+}
+.btn_subs{
+    color: black;
+    border: 1px solid #FC6600;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+.appointment_container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.doc__card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.doc__card img{
+    height: 250px;
+    width: 250px;
+    max-width: 350px;
+
+}
+.team_form {
+    display: flex !important;
+}
+.doctor-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.specialties {
+    font-size: 14px;
+    /* color: #555; */
+    margin-bottom: 15px;
+}
+
+.specialties span {
+    margin-right: 10px;
+}
+
+.contact-info {
+    font-size: 14px;
+}
+.orange-outline-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #FFA500; /* Orange color */
+    color: #FFA500; /* Orange color */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease; /* Add a smooth transition effect */
+  }
+
+  .signup-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid wheat;;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.signup-button:hover {
+    background-color:  #ffffff;
+
+}
+.orange-outline-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #FC6600; /* Orange color */
+    color: #1a1918; /* Orange color */
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease; /* Add a smooth transition effect */
+  }
+
+  /* Style the button on hover */
+  .orange-outline-button:hover {
+    background-color: #FC6600; /* Change background to orange on hover */
+    color: #fff; /* Change text color to white on hover */
+  }
+@media screen and (max-width:988px){
+    .avatable th, td{
+        font-size:13px !important;
+
+    }
+}
+
+    /* Custom styles for the sticky navbar */
+    .navbar {
+        transition: top 1.5s ease-in-out, background-color 1.5s ease-in-out, padding 1.5s ease-in-out;
+    }
+
+    .navbar.sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #FC6600;
+        z-index: 1000;
+    }
+
+    .navbar.sticky .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .navbar.sticky .navbar-nav .nav-link {
+        font-size: 0.9rem;
+        color: white !important;
+    }
+
+    .navbar.sticky .navbar-toggler-icon {
+        color: white;
+    }
+
+    .navbar:not(.sticky) {
+        background-color: transparent;
+    }
+
+    .navbar:not(.sticky) .navbar-brand,
+    .navbar:not(.sticky) .navbar-nav .nav-link {
+        color: white !important;
+    }
+
+    /* Smooth transition for navbar */
+    .navbar {
+        transition: top 1s ease-in-out, background-color 1s ease-in-out, padding 0.5s ease-in-out;
+    }
+
+    /* Add a smooth scroll behavior */
+    html {
+        scroll-behavior: smooth;
+    }
+    .dropdown:hover{
+        background-color: #FC6600;
+    }
+
+
+
