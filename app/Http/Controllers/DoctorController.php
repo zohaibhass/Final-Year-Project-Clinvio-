@@ -128,7 +128,7 @@ class DoctorController extends Controller
     public function update_page(string $id)
     {
 
-        $update_page = Doctor::select('Doctor_id', 'Name', 'Email', 'Phone', 'Profile_picture', 'Gender', 'Age', 'city', 'state', 'country', 'adress', 'Description')->where('Doctor_id', $id)->first();
+        $update_page = Doctor::all()->where('Doctor_id', $id)->first();
 
 
 
@@ -137,23 +137,58 @@ class DoctorController extends Controller
 
     // method to update_doctor
 
-    public function update_doctor(string $id)
+    public function update_doctor(string $id, Request $req)
     {
-        $updated_data = [
-            'Name' => request('doc_name'),
-            'Email' => request('email'),
-            'Dept_id' => request('specialty'),
-            'Profile_picture' => request('profile_picture'),
-            'Phone' => request('phone_no'),
-            'Gender' => request('gender'),
-            'Age' => request('age'),
-            'Description' => request('doc_description'),
+        // Validate the form fields
+        $validatedData = request()->validate([
+            'doc_name' => 'required',
+            'email' => 'required|email',
+            'dept_id' => 'required',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'phone_no' => 'required',
+            'gender' => 'required',
+            'age' => 'required|numeric',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'adress' => 'required',
+            'doc_description' => 'required',
+        ]);
+
+        if ($req->hasFile('profile_picture')) {
+            $file = $req->file('profile_picture');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'public/uploads' . $fileName;
+
+            // Save the profile picture to the same path
+            Storage::disk('public')->put($filePath, file_get_contents($file));
+
+            // Update the profile picture path in the data array
+            $data['Profile_picture'] = $fileName;
+        }
+
+        $updateData = [
+            'Name' => $validatedData['doc_name'],
+            'Email' => $validatedData['email'],
+            'dept_id' => $validatedData['dept_id'],
+            'Phone' => $validatedData['phone_no'],
+            'Gender' => $validatedData['gender'],
+            'Age' => $validatedData['age'],
+            'Profile_picture' => $fileName,
+            'city' => $validatedData['city'],
+            'state' => $validatedData['state'],
+            'country' => $validatedData['country'],
+            'Description' => $validatedData['doc_description'],
+            'adress' => $validatedData['adress'],
         ];
 
-        Doctor::where('Doctor_id', $id)->update($updated_data);
+        // Update the doctor record
+        Doctor::where('Doctor_id', $id)->update($updateData);
 
         return redirect()->route('alldoctors');
     }
+
+
 
     // method to target recent doctors on super admin dashboard
 
@@ -313,7 +348,7 @@ class DoctorController extends Controller
     public function showDoctorDetails($id)
     {
 
-        $doctor = Doctor::select('Doctor_id', 'Name','dept_id','Email', 'Phone', 'Age', 'Gender', 'Description', 'Profile_picture')
+        $doctor = Doctor::select('Doctor_id', 'Name', 'dept_id', 'Email', 'Phone', 'Age', 'Gender', 'Description', 'Profile_picture')
             ->where('Doctor_id', $id)
             ->first();
 
@@ -493,6 +528,4 @@ class DoctorController extends Controller
 
         return view('allappointments', ['doctors' => $doc]);
     }
-
-
 }

@@ -8,7 +8,7 @@
             </div>
         </div>
 
-        @if (count($appointments) > 0)
+        {{-- @if (count($appointments) > 0) --}}
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -40,7 +40,7 @@
             </tbody>
 
         </table>
-        @else
+        {{-- @else
 
         <div class="sufee-alert alert with-close alert-secondary mx-5 mt-5 alert-dismissible animate__animated animate__fadeInDown">
             <span class="badge badge-pill badge-secondary">Empty</span>
@@ -50,6 +50,6 @@
             </button>
         </div>
 
-        @endif
+        @endif --}}
     </div>
 @endsection

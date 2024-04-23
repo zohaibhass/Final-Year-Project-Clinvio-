@@ -157,8 +157,11 @@ class PatientController extends Controller
             return redirect()->route("cnic_phone")->with(['message' => "Please Verify First..."]);
         }
 
-        // Retrieve appointments based on CNIC and Phone Number
-        $appointments = Appointment::where('status','confirm')->get();
+        $appointments = Appointment::whereHas('patient', function ($query) use ($patient) {
+            $query->where('cnic', $patient->cnic)
+                  ->where('Phone', $patient->Phone);
+        })->where('status', 'confirm')->get();
+
 
         // Pass the appointments data to the view
         return view('myappointments', compact('appointments'));

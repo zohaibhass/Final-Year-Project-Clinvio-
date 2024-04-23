@@ -18,8 +18,12 @@
         <div class="row">
             <div class="col-md-4 d-flex justify-content-center">
                 <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
-                    <img src="{{ asset('/storage/public/uploads' . $doctor->Profile_picture) }}" alt="Doctor Profile"
-                        class="doctor-profile-img img-fluid" style="object-fit: cover; object-position: top">
+                    @if ($doctor->Profile_picture)
+                        <img src="{{ asset('storage/public/uploads' . $doctor->Profile_picture) }}" alt="Doctor Profile" class="doctor-profile-img img-fluid" style="object-fit: cover; object-position: top">
+                    @else
+                        <!-- Placeholder image if no profile picture is available -->
+                        <img src="{{ asset('placeholder.jpg') }}" alt="No Profile Picture" class="doctor-profile-img img-fluid" style="object-fit: cover; object-position: top">
+                    @endif
                 </div>
             </div>
             <div class="col-md-8 p-0" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">

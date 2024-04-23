@@ -26,8 +26,8 @@ class AppointmentController extends Controller
 
         // Retrieve the count of approved appointments
         $approvedAppointmentsCount = Appointment::where('status', 'confirm')->count();
-    
-        
+
+
         return view('doctor_dashboard/doctor_dashboard_home', ['recentAppointments'=>$recentAppointments,
                                                                 'totalappointments'=>$totalAppointmentsCount,
                                                                  'todaysappointments'=>$todaysAppointmentsCount,
@@ -56,7 +56,10 @@ class AppointmentController extends Controller
             "phoneNumber"=> "required|min:10"
         ]);
 
-        $patient= Patient::where("Phone", $validated['phoneNumber'])->where("cnic", $validated['cnic'])->first();
+        $patient= Patient::where("Phone", $validated['phoneNumber'])->where("cnic", $validated['cnic'])->whereHas('appointments', function ($query) {
+            $query->where('status', 'confirm');
+        })
+        ->with('appointments')->first();
         $all_appointments=null;
 
         if($patient!=null){
@@ -64,10 +67,10 @@ class AppointmentController extends Controller
             return redirect()->route("patient.appointments");
         }
         else{
-            return redirect()->back()->with(['message'=>"No Patient exists with provided Credentials"]);
+            return redirect()->back()->with(['message'=>"No appointment exists with provided Credentials"]);
         }
 
-        
+
 
     }
 }
