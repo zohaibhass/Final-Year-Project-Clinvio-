@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" type="image/png" href="{{ asset('images\favicon-16x16.png') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
@@ -29,8 +29,10 @@
 
                 @foreach ($settings as $key => $value)
                     @if ($key === 'logo')
-                        <a class="navbar-brand float-start" href="{{ route('home') }}"><img class="shadow" style="height: 50px; width:50px;" src="{{ asset('storage/' . $value ?? ' ') }}" alt=""></a>
-                    {{-- @elseif ($key === 'title')
+                        <a class="navbar-brand float-start" href="{{ route('home') }}"><img class="shadow"
+                                style="height: 50px; width:50px;" src="{{ asset('storage/' . $value ?? ' ') }}"
+                                alt=""></a>
+                        {{-- @elseif ($key === 'title')
                         <a class="navbar-brand col-lg-4 col-md-12 text-light"
                             href="{{ route('home') }}">{{ $value }}</a> --}}
                     @endif
@@ -76,8 +78,9 @@
                     <div class="input-group shadow">
                         <input style="height: 50px" class="form-control" name="search" type="search"
                             placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-white  signup-button"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <button class="btn btn-outline-white  signup-button"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="16" height="16" fill="currentColor" class="bi bi-search"
+                                viewBox="0 0 16 16">
                                 <path
                                     d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                             </svg> </button>
@@ -106,11 +109,10 @@
                         </div>
 
                         <div class="d-flex justify-content-between py-4 my-4 border-top">
-                            @foreach ($settings as $key=>$value )
-                            @if ($key==='footer')
-                            <p>{{ $value }}</p>
-                            @endif
-
+                            @foreach ($settings as $key => $value)
+                                @if ($key === 'footer')
+                                    <p>{{ $value }}</p>
+                                @endif
                             @endforeach
 
                             <ul class="list-unstyled d-flex">

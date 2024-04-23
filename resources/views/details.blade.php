@@ -1,10 +1,6 @@
 @extends('layouts.layout_landingpage')
 @section('title', 'appointment boking')
 @section('content')
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
-        integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
@@ -17,18 +13,19 @@
                             style="border-radius:50%; object-fit: cover; object-position: top" class="img-fluid shadow">
                     </div>
                     <hr>
-                    <div class="doctor-name mt-3"> <b>Doctor Name</b>: {{ $doctor_detail->Name }}</div>
-                    <div class="specialties">
-                        <b>Specialist</b>:{{$doctor_detail->department->Name }}</span>
-
-                    </div>
+                    <div class="doctor-name mt-3"><i class="bi bi-person-check-fill"></i> <b>Doctor Name</b>:
+                        {{ $doctor_detail->Name }} <i class="bi bi-patch-check-fill" style="color: #57A0D2;"></i></div>
+                        <div class="specialties">
+                            <p><i class="bi bi-check-all me-1"></i><b>Specialist:</b> {{ $doctor_detail->department->Name }}</p>
+                        </div>
                     <div class="contact-info">
-                        <p><b>Email</b> : {{ $doctor_detail->Email }}</p>
-                        <p><b>Phone No</b>: {{ $doctor_detail->Phone }}</p>
-                        <p><b>country</b>:{{ $doctor_detail->country }}</p>
-                        <p><b>state</b>:{{ $doctor_detail->state }}</p>
-                        <p><b>Adress</b>:{{ $doctor_detail->adress }}</p>
-                        <p><b>About</b>:{{ $doctor_detail->Description }}</p>
+                        <p> <i class="bi bi-envelope me-1"></i><b>Email</b> : {{ $doctor_detail->Email }}</p>
+                        <p><i class="bi bi-telephone-fill me-1"></i>/<i class="bi bi-whatsapp me-1"></i><b>Phone No</b>:
+                            {{ $doctor_detail->Phone }}</p>
+                        <p><i class="bi bi-flag-fill me-1"></i><b>country</b>:{{ $doctor_detail->country }}</p>
+                        <p><i class="bi bi-map me-1"></i><b>state</b>:{{ $doctor_detail->state }}</p>
+                        <p><i class="bi bi-geo-alt me-1"></i><b>Adress</b>:{{ $doctor_detail->adress }}</p>
+                        <p><i class="bi bi-body-text me-1"></i><b>About</b>:{{ $doctor_detail->Description }}</p>
 
                     </div>
                     <div class="card-footer ">
@@ -112,7 +109,8 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Age:</label>
-                        <input type="number" class="form-control" value="{{ old('age') }}" id="Age" name="Age" required>
+                        <input type="number" class="form-control" value="{{ old('age') }}" id="Age"
+                            name="Age" required>
                     </div>
 
                     <div class="form-group">
@@ -145,7 +143,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
         integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
     <script>
         var days = [
             "Sunday",
@@ -157,14 +155,14 @@
             "Saturday"
         ];
 
-        var disabledDays=[0,1,2,3,4,5,6];
+        var disabledDays = [0, 1, 2, 3, 4, 5, 6];
 
         <?php
             foreach ($availabilityData as $availability):
         ?>
-            delete disabledDays[days.indexOf("<?php echo $availability->day ?>")]
-            console.log("dat" , days.indexOf("<?php echo $availability->day ?>"))
-            // disabledDays .splice(days.indexOf("<?php echo $availability->day ?>"),1)
+        delete disabledDays[days.indexOf("<?php echo $availability->day; ?>")]
+        console.log("dat", days.indexOf("<?php echo $availability->day; ?>"))
+        // disabledDays .splice(days.indexOf("<?php echo $availability->day; ?>"),1)
         <?php
             endforeach;
         ?>
@@ -177,9 +175,9 @@
             foreach ($availabilityData as $availability):
 
             ?> "<?= $availability->day ?>": {
-                    "start_time": "<?= $availability->start_time ?>",
-                    "end_time": "<?= $availability->end_time ?>"
-                }
+                "start_time": "<?= $availability->start_time ?>",
+                "end_time": "<?= $availability->end_time ?>"
+            }
             <?php
             if($i!= count($availabilityData)){
                 echo ",";
@@ -193,16 +191,16 @@
         console.log("dates", reserveDates)
 
         jQuery('#date').datetimepicker({
-            step:15,
+            step: 15,
             disabledWeekDays: disabledDays,
-            onSelectDate: function(curr, input){
+            onSelectDate: function(curr, input) {
                 console.log("fasdfsdf")
                 $('#date').val("")
             },
             onSelectTime: function(curr_time, $input) {
-                let input= $('#date').datetimepicker('getValue')
+                let input = $('#date').datetimepicker('getValue')
                 console.log("dateee", input)
-                if(input==null){
+                if (input == null) {
                     return;
                 }
                 let date = new Date(input)
@@ -214,12 +212,13 @@
                 let reserveSelectedDay = reserveDates[selectedDay]
                 console.log("reserveSelectedDay", selectedDay)
 
-                if(reserveSelectedDay!=undefined){
+                if (reserveSelectedDay != undefined) {
                     console.log(reserveSelectedDay)
-                    let isAvailable= timeIsBetween(reserveSelectedDay.start_time, reserveSelectedDay.end_time, date)
+                    let isAvailable = timeIsBetween(reserveSelectedDay.start_time, reserveSelectedDay.end_time,
+                        date)
                     console.log("ava", isAvailable)
 
-                    if(!isAvailable){
+                    if (!isAvailable) {
                         Swal.fire({
                             position: "top-end",
                             icon: "warning",
@@ -229,8 +228,7 @@
                         })
 
                     }
-                }
-                else{
+                } else {
                     $("#date").val("")
                     // alert("Doctor Not Available at this Day...")
                     Swal.fire({
@@ -246,10 +244,10 @@
         });
 
 
-        function timeIsBetween($date1, $date2, $checkDate){
+        function timeIsBetween($date1, $date2, $checkDate) {
             var startTime = $date1;
             var endTime = $date2;
-            var checkTime= $checkDate;
+            var checkTime = $checkDate;
 
             startDate = new Date(checkTime.getTime());
             startDate.setHours(startTime.split(":")[0]);

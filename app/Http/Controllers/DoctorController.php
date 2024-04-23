@@ -433,7 +433,7 @@ class DoctorController extends Controller
     public function showAllDoctors()
     {
         // Fetch doctors and their corresponding departments from the database
-        $doctors = Doctor::where("status", "accepted")->simplepaginate(3);
+        $doctors = Doctor::where("status", "accepted")->simplepaginate(6);
 
         return view('allappointments', ['doctors' => $doctors]);
     }
@@ -476,7 +476,7 @@ class DoctorController extends Controller
     }
     public function updateProfile(Request $request)
     {
-        $user = auth()->user();
+        $user = auth()->AuthUser;
 
         // Check if the user is authenticated and has associated doctor data
         if (!$user || !$user->doctor) {

@@ -11,7 +11,7 @@
                         <div class="card shadow" style="width: 18rem; height: 100%;">
                             <img class="card-img-top doc_img"
                                 src="{{ asset('storage/public/uploads' . $doctor->Profile_picture) }}" alt="Card image cap">
-                            <h5 class="card-title text-center card-header">{{ $doctor->Name }}</h5>
+                            <h5 class="card-title text-center card-header">{{ $doctor->Name }}<i class="bi bi-patch-check-fill ms-1" style="color: #57A0D2;"></i></h5>
 
                             <div class="card-body">
                                 <h6 class="card-subtitle">Specialized in: <span

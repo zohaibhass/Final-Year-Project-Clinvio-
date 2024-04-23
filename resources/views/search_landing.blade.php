@@ -11,7 +11,7 @@
                         <div class="card shadow"style="width: 18rem; height: 100%;">
                             <img class="card-img-top doc_img" src="{{ asset('/storage/public/uploads' . $doctor->Profile_picture) }}" style="object-fit: cover; object-position: top" alt="Doctor Image">
                             <div class="card-body">
-                                <h5 class="card-title"><b>Doctor:</b>{{ $doctor->Name }}</h5>
+                                <h5 class="card-title"><b>Doctor:</b>{{ $doctor->Name }}<i class="bi bi-patch-check-fill ms-1" style="color: #57A0D2;"></i></h5>
 
                                 <p class="card-text"> <b>Specialized in:</b>  {{ optional($doctor->department)->Name }}</p>
                                 <p class="card-text" style="max-height: 50px; overflow: hidden; text-overflow: ellipsis;"><b>Description:</b>{{ $doctor->Description }}</p>
