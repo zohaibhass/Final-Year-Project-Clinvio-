@@ -36,14 +36,14 @@
                         <img class="card-img-top doc_img"
                             src="{{ asset('/storage/public/uploads' . $doctor->Profile_picture) }}"
                             style="object-fit: cover; object-position: top" alt="Card image cap">
-                        <h5 class="card-title text-center card-header">{{ $doctor->Name }}<i class="bi bi-patch-check-fill ms-1" style="color: #57A0D2;"></i></h5>
+                        <h5 class="card-title text-center card-header"><i class="bi bi-person-check-fill me-2"></i>{{ $doctor->Name }}<i class="bi bi-patch-check-fill ms-1" style="color: #57A0D2;"></i></h5>
                         <div class="card-body">
 
-                            <h6 class="card-subtitle">Specialized in: <span
+                            <h6 class="card-subtitle"><i class="bi bi-check-all me-1"></i>Specialized in: <span
                                     style="color: #FC6600">{{ $doctor->department->Name }}</span></h6>
 
                             <p class="card-text" style="max-height: 50px; overflow: hidden; text-overflow: ellipsis;">
-                                Description: <span style="color: #FC6600">{{ $doctor->Description }}</span>
+                                <i class="bi bi-body-text me-1"></i> Description: <span style="color: #FC6600">{{ $doctor->Description }}</span>
                             </p>
                         </div>
                         <div class="card-footer p-0 py-2 text-center">
