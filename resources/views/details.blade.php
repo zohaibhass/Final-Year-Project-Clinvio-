@@ -1,6 +1,10 @@
 @extends('layouts.layout_landingpage')
 @section('title', 'appointment boking')
 @section('content')
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+        integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
@@ -53,7 +57,7 @@
             </div>
 
 
-            <div class="col-sm-12 col-md-6 shadow p-5">
+            <div class="col-sm-12 col-md-6">
                 <h2>Book an Appointment</h2>
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -90,32 +94,26 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone No:</label>
-                        <input type="text" value="{{ old('phone') }}" id="phone" name="phone" required>
+                        <input type="text" id="phone" name="phone" required>
                     </div>
 
                     <div class="form-group">
                         <label for="cnic">Cnic:</label>
-                        <input type="text" id="cnic" value="{{ old('cnic') }}" name="cnic" required>
+                        <input type="text" id="cnic" name="cnic" required>
                     </div>
 
                     <div class="form-group">
                         <label for="Gender">Gender:</label>
-                        <select id="Gender" name="Gender" class="form-control" required>
-                            <option value="" disabled selected>Select Gender</option>
-                            <option value="Male" {{ old('Gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                            <option value="Female" {{ old('Gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                            <option value="Other" {{ old('Gender') == 'Other' ? 'selected' : '' }}>Other</option>
-                        </select>
+                        <input type="text" id="Gender" name="Gender" required>
                     </div>
                     <div class="form-group">
                         <label for="phone">Age:</label>
-                        <input type="number" class="form-control" value="{{ old('age') }}" id="Age"
-                            name="Age" required>
+                        <input type="number" class="form-control" id="Age" name="Age" required>
                     </div>
 
                     <div class="form-group">
                         <label for="date">Select Date:</label>
-                        <input autocomplete="off" value="{{ old('date') }}" type="text" id="date" name="date">
+                        <input autocomplete="off" type="text" id="date" name="date">
 
                         <div id="my_calendar"></div>
 
@@ -123,7 +121,7 @@
                     <div class="mb-3">
                         <label for="pat_description">Description</label>
                         <textarea rows="7" class="form-control" name="pat_description" value="" placeholder="explain your illness"
-                            required="">{{ old('pat_description') }}</textarea>
+                            required=""></textarea>
                     </div>
                     <input class="orange-outline-button" type="submit" value="Book Appointment">
                 </form>
@@ -143,7 +141,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
         integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
     <script>
         var days = [
             "Sunday",
@@ -155,14 +153,14 @@
             "Saturday"
         ];
 
-        var disabledDays = [0, 1, 2, 3, 4, 5, 6];
+        var disabledDays=[0,1,2,3,4,5,6];
 
         <?php
             foreach ($availabilityData as $availability):
         ?>
-        delete disabledDays[days.indexOf("<?php echo $availability->day; ?>")]
-        console.log("dat", days.indexOf("<?php echo $availability->day; ?>"))
-        // disabledDays .splice(days.indexOf("<?php echo $availability->day; ?>"),1)
+            delete disabledDays[days.indexOf("<?php echo $availability->day ?>")]
+            console.log("dat" , days.indexOf("<?php echo $availability->day ?>"))
+            // disabledDays .splice(days.indexOf("<?php echo $availability->day ?>"),1)
         <?php
             endforeach;
         ?>
@@ -175,9 +173,9 @@
             foreach ($availabilityData as $availability):
 
             ?> "<?= $availability->day ?>": {
-                "start_time": "<?= $availability->start_time ?>",
-                "end_time": "<?= $availability->end_time ?>"
-            }
+                    "start_time": "<?= $availability->start_time ?>",
+                    "end_time": "<?= $availability->end_time ?>"
+                }
             <?php
             if($i!= count($availabilityData)){
                 echo ",";
@@ -191,16 +189,16 @@
         console.log("dates", reserveDates)
 
         jQuery('#date').datetimepicker({
-            step: 15,
+            step:15,
             disabledWeekDays: disabledDays,
-            onSelectDate: function(curr, input) {
+            onSelectDate: function(curr, input){
                 console.log("fasdfsdf")
                 $('#date').val("")
             },
             onSelectTime: function(curr_time, $input) {
-                let input = $('#date').datetimepicker('getValue')
+                let input= $('#date').datetimepicker('getValue')
                 console.log("dateee", input)
-                if (input == null) {
+                if(input==null){
                     return;
                 }
                 let date = new Date(input)
@@ -212,13 +210,12 @@
                 let reserveSelectedDay = reserveDates[selectedDay]
                 console.log("reserveSelectedDay", selectedDay)
 
-                if (reserveSelectedDay != undefined) {
+                if(reserveSelectedDay!=undefined){
                     console.log(reserveSelectedDay)
-                    let isAvailable = timeIsBetween(reserveSelectedDay.start_time, reserveSelectedDay.end_time,
-                        date)
+                    let isAvailable= timeIsBetween(reserveSelectedDay.start_time, reserveSelectedDay.end_time, date)
                     console.log("ava", isAvailable)
 
-                    if (!isAvailable) {
+                    if(!isAvailable){
                         Swal.fire({
                             position: "top-end",
                             icon: "warning",
@@ -228,7 +225,8 @@
                         })
 
                     }
-                } else {
+                }
+                else{
                     $("#date").val("")
                     // alert("Doctor Not Available at this Day...")
                     Swal.fire({
@@ -244,10 +242,10 @@
         });
 
 
-        function timeIsBetween($date1, $date2, $checkDate) {
+        function timeIsBetween($date1, $date2, $checkDate){
             var startTime = $date1;
             var endTime = $date2;
-            var checkTime = $checkDate;
+            var checkTime= $checkDate;
 
             startDate = new Date(checkTime.getTime());
             startDate.setHours(startTime.split(":")[0]);
