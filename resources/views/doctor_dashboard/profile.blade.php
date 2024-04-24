@@ -27,11 +27,14 @@
                         <!-- Profile Picture -->
                         <div class="card mb-3"
                             style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
-                            <img class="card-body" src="{{ asset('/storage/public/uploads' . $doctor->Profile_picture) }}"
+                            <img class="card-body" src="{{ asset('storage/public/uploads' . $doctor->Profile_picture)}}"
                                 alt="Doctor Profile Picture" class="img-fluid rounded mb-3 profile-picture">
                             <div class="upload-btn-wrapper text-center mb-2">
                                 <button class=" btn-sm orange-outline-button ">Change Profile Photo</button>
                                 <input type="file" name="profile_photo" id="profile_photo" accept="image/*">
+                                @error('profile_photo')
+                                  <p class="alert alert-danger"> {{$message  }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>

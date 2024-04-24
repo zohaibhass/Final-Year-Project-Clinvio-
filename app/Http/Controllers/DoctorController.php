@@ -18,7 +18,7 @@ use App\Models\User;
 use Carbon\Carbon;
 
 use function Laravel\Prompts\select;
-use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controller;
@@ -41,58 +41,52 @@ class DoctorController extends Controller
 
     public function insertdoctor(Request $request)
     {
-
         $request->validate([
-
-
             'doc_name' => 'required|string|max:255',
-            'email' => 'required|Email|unique:doctors',
-            'specialty' => 'required|string|max:255',
+            'email' => 'required|email|unique:doctors,Email',
             'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'phone' => 'required|string|max:20',
-            'gender' => 'required|string|in:Male,Female',
-            'age' => 'required|integer|min:1',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required',
-            'adress' => 'required',
-
+            'phone_no' => 'required|string',
+            'gender' => 'required|string|max:255',
+            'age' => 'required|integer',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'password' => 'required|string|min:8',
+            'address' => 'required|string',
             'doc_description' => 'nullable|string|max:1000'
-
         ]);
 
+        // Handle file upload
         $file = $request->file('profile_picture');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = 'public/uploads' . $fileName;
+        $filePath = 'public/uploads/' . $fileName;
+        $file->storeAs('public/uploads', $fileName);
+        $departmentId = $request->input('specialty');
 
-        Storage::disk('public')->put($filePath, file_get_contents($file));
-        $departmentId = $request->input('dept_id');
+        $pass = rand(10000000, 99999999);
 
-        $pass = rand(8, 12);
 
-        $doctor_data = Doctor::insert([
-            'Name' => $request->input('doc_name'),
-            'Email' => $request->input('email'),
-            'Department' => $request->input('specialty'),
-            'Profile_picture' => $fileName,
-            'Phone' => $request->input('phone'),
-            'Gender' => $request->input('gender'),
-            'Age' => $request->input('age'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state'),
-            'country' => $request->input('country'),
-            'Department' => $request->input('specialty'),
-            'adress' => $request->input('adress'),
-            'Password' => Hash::make($pass),
-            'Description' => $request->input('doc_description'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        if ($doctor_data) {
+        $doctor = new Doctor();
+        $doctor->Name = $request->input('doc_name');
+        $doctor->Email = $request->input('email');
+        $doctor->Profile_picture = $fileName;
+        $doctor->Phone = $request->input('phone_no');
+        $doctor->Gender = $request->input('gender');
+        $doctor->Age = $request->input('age');
+        $doctor->city = $request->input('city');
+        $doctor->state = $request->input('state');
+        $doctor->country = $request->input('country');
+        $doctor->dept_id = $departmentId;
+        $doctor->adress = $request->input('address');
+        $doctor->Password = Hash::make($request->input('password'));
+        $doctor->Description = $request->input('doc_description');
+        $doctor->created_at = now();
+        $doctor->updated_at = now();
+        $doctor->save();
+        if ($doctor) {
             return back()->with('success', 'Doctor added successfully!');
         } else {
-            return back()->with('error', 'enter valid data');
+            return back()->with('error', 'Failed to add doctor. Please try again.');
         }
     }
 
@@ -476,46 +470,61 @@ class DoctorController extends Controller
     }
     public function updateProfile(Request $request)
     {
-        $user = auth()->AuthUser;
+            // Get the authenticated doctor's ID
+            $doctor = Session::get("AuthUser");
+            $doctor_id = $doctor->Doctor_id;
 
-        // Check if the user is authenticated and has associated doctor data
-        if (!$user || !$user->doctor) {
-            return redirect()->back()->with('error', 'User or doctor data not found.');
-        }
-
-        // Validate the form data
         $validatedData = $request->validate([
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'update_password' => 'nullable|string|min:6|confirmed',
-            'phone' => 'nullable|string|max:20',
-            'dept_id' => 'nullable|exists:departments,dept_id',
+            'name' => 'required|string|max:255',
+            'email' => 'required',
+            'phone' => 'required',
+            'profile_photo' => 'required','nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'dept_id' => 'required',
             'description' => 'nullable|string',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size if needed
+            'update_password'=>'required',
+            'update_password_confirmation'=>'required',
+            'update_password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        // Update doctor's profile data
-        $doctor = $user->doctor; // Get the doctor instance directly from the user
-        $doctor->Name = $validatedData['name'];
-        $doctor->Email = $validatedData['email'];
-        $doctor->Phone = $validatedData['phone'];
-        $doctor->dept_id = $validatedData['dept_id'];
-        $doctor->Description = $validatedData['description'];
+        // Prepare the data to be updated
+        $file = $request->file('profile_photo');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = 'public/uploads' . $fileName;
 
-        // Update password if provided
+        Storage::disk('public')->put($filePath, file_get_contents($file));
+        $data = [
+            'name' => $validatedData['name'],
+            'Email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'dept_id' => $validatedData['dept_id'],
+            'Password'=>$validatedData['update_password'],
+            'Profile_picture'=>$fileName,
+            'description' => $validatedData['description'],
+        ];
+
+        // Update the password if provided
         if ($validatedData['update_password']) {
-            $doctor->Password = bcrypt($validatedData['update_password']);
+            $data['password'] = Hash::make($validatedData['update_password']);
         }
 
-        // Handle profile photo if provided
-        if ($request->hasFile('profile_photo')) {
-            $photoPath = $request->file('profile_photo')->store('public/uploads');
-            $doctor->Profile_picture = str_replace('public/', '', $photoPath);
-        }
+        // Update the profile photo if provided
+        // if ($request->hasFile('profile_photo')) {
+        //     $profilePhotoPath = $request->file('profile_photo')->store('public/uploads');
+        //     $data['Profile_picture'] = basename($profilePhotoPath);
+        // }
+        $file = $request->file('profile_photo');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = 'public/uploads' . $fileName;
 
-        $doctor->save();
+        Storage::disk('public')->put($filePath, file_get_contents($file));
 
-        return redirect()->route('doctorprofile')->with('success', 'Profile updated successfully!');
+
+
+        // Update the doctor's profile in the database
+        Doctor::where('Doctor_id',$doctor_id)->update($data);
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
 

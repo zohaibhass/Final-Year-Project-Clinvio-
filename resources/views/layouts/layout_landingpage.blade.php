@@ -54,8 +54,8 @@
                 </div>
                 <div class="mx-2 shadow">
                     @auth
-                        @if (auth()->user()->doctor)
-                            <img src="{{ asset('storage/' . auth()->user()->doctor->Profile_picture) }}" alt="Profile Image"
+                        @if (session()->get("AuthUser"))
+                            <img src="{{ asset('storage/' . session()->get("AuthUser")->doctor->Profile_picture) }}" alt="Profile Image"
                                 class="rounded-circle profile-image" style="width: 32px; height: 32px;">
                         @else
                             <!-- Show default profile image or user's name -->

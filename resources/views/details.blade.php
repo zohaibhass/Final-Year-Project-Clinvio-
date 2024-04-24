@@ -103,8 +103,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Gender">Gender:</label>
-                        <input type="text" id="Gender" name="Gender" required>
+                        <label for="cnic">Gender:</label>
+                        <select class="form-group" required id="Gender" name="Gender">
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male
+                            </option>
+                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female
+                            </option>
+                            <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="phone">Age:</label>
@@ -142,6 +150,8 @@
         integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         var days = [
             "Sunday",
@@ -196,7 +206,8 @@
                 $('#date').val("")
             },
             onSelectTime: function(curr_time, $input) {
-                let input= $('#date').datetimepicker('getValue')
+                // let input= jQuery('#date').datetimepicker('getValue')
+                let input= jQuery('#date').val()
                 console.log("dateee", input)
                 if(input==null){
                     return;

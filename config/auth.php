@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // Add a custom guard for doctors
+    'doctor' => [
+        'driver' => 'session',
+        'provider' => 'doctors',
+    ],
     ],
 
     /*
@@ -65,10 +71,21 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        // provider for doctors
+    'doctors' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Doctor::class,
+    ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+    ],
+    // provider for doctors
+    'doctors' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Doctor::class,
     ],
 
     /*
